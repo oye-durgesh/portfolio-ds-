@@ -1,8 +1,8 @@
-import syedShot from "@/assets/syed_adil_comment.png.asset.json";
-import maneckShot from "@/assets/maneck_debara_comment.png.asset.json";
-import portrait from "@/assets/durgesh_portrait.webp.asset.json";
-import winnersPhoto from "@/assets/razorpay_replit_winners.png.asset.json";
-import demoPhoto from "@/assets/razorpay_replit_demo.png.asset.json";
+import syedShot from "@/assets/syed adil.webp";
+import maneckShot from "@/assets/maneck dibara.webp";
+import portrait from "@/assets/durgesh image.webp";
+import winnersPhoto from "@/assets/rzorpay 1.webp";
+import demoPhoto from "@/assets/razorpay 2.webp";
 import quickCommerceImg from "@/assets/growth/quick_commerce_concept.jpg";
 import campusImg from "@/assets/growth/campus_ambassadors_concept.jpg";
 import metroImg from "@/assets/growth/metro_branding_concept.jpg";
@@ -876,7 +876,7 @@ export interface Headline {
 
 export const whoIAm = {
   headline: { eyebrow: "Who I am · Growth intern", title: "Who I am.", em: "Who I am." } satisfies Headline,
-  image: portrait.url,
+  image: portrait,
   imageAlt:
     "Durgesh Shukla smiling in a cap and glasses, surrounded by drawings of a robot, a light bulb, a trophy, a coffee mug and a laptop",
   name: "Durgesh Shukla",
@@ -963,7 +963,7 @@ export const hackathon = {
   details: "19 Sep 2026 · 90+ teams · Project: Smaran",
   text: "Solo build. Hindi, Hinglish, English medication reminder. Built with Replit, Claude and ElevenLabs.",
   tags: ["★ Featured achievement", "Solo build"],
-  photos: [winnersPhoto.url, demoPhoto.url],
+  photos: [winnersPhoto, demoPhoto],
 };
 
 /**
@@ -982,8 +982,8 @@ export const testimonialsIntro = {
 };
 
 export const testimonials: TestimonialShot[] = [
-  { name: "", role: "", image: syedShot.url, alt: "LinkedIn comment from Syed Adil, India Growth at Replit" },
-  { name: "", role: "", image: maneckShot.url, alt: "LinkedIn comment from Maneck Debara, Building Razorpay Rize" },
+  { name: "", role: "", image: syedShot, alt: "LinkedIn comment from Syed Adil, India Growth at Replit" },
+  { name: "", role: "", image: maneckShot, alt: "LinkedIn comment from Maneck Debara, Building Razorpay Rize" },
 ];
 
 export interface GrowthOpportunity {

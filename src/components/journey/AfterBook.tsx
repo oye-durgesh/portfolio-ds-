@@ -420,7 +420,7 @@ function HowIOperate({ onChapter }: { onChapter: (id: string) => void }) {
               src={whoIAm.image}
               alt={whoIAm.imageAlt}
               loading="lazy"
-              className="mx-auto w-[250px] rounded-2xl bg-paper-white shadow-lg md:mx-0 md:w-full md:max-w-[350px]"
+              className="mx-auto aspect-square w-[250px] rounded-2xl bg-paper-white object-cover object-center shadow-lg md:mx-0 md:w-full md:max-w-[350px]"
             />
             <p className="mt-5 font-serif text-2xl font-medium text-foreground">{whoIAm.name}</p>
             <p className="mt-1 font-serif text-base italic text-foreground/50">{whoIAm.tagline}</p>
