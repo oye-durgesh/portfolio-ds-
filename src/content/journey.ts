@@ -1,3 +1,12 @@
+import syedShot from "@/assets/syed_adil_comment.png.asset.json";
+import maneckShot from "@/assets/maneck_debara_comment.png.asset.json";
+import portrait from "@/assets/durgesh_portrait.webp.asset.json";
+import winnersPhoto from "@/assets/razorpay_replit_winners.png.asset.json";
+import demoPhoto from "@/assets/razorpay_replit_demo.png.asset.json";
+import quickCommerceImg from "@/assets/growth/quick_commerce_concept.jpg";
+import campusImg from "@/assets/growth/campus_ambassadors_concept.jpg";
+import metroImg from "@/assets/growth/metro_branding_concept.jpg";
+import billboardImg from "@/assets/growth/bengaluru_orr_billboard_concept.jpg";
 /**
  * Story content for The Book of My Journey — the single place to edit text,
  * links, awards and quotes. Source: docs/creative-brief-v4.md and
@@ -93,8 +102,8 @@ export interface Experiment {
 /** D2C and B2B growth, shown under "My Work" with a "Both sides" join between them. */
 export interface GrowthSides {
   intro: string[];
-  d2c: { title: string; items: string[]; note: string; placeholder: string };
-  b2b: { title: string; questions: string[]; placeholder: string };
+  d2c: { title: string; items: string[]; note: string; referral: string };
+  b2b: { title: string; questions: { q: string; a: string }[] };
 }
 
 export type Part =
@@ -130,6 +139,8 @@ export interface Chapter {
   loop?: Partial<Record<LoopStep, LoopTone>>;
   /** Small italic caveat at the bottom of the left panel. */
   note?: string;
+  /** Bottom of the left panel: a nudge to keep scrolling (shown with a bouncing ↓). */
+  scrollPrompt?: string;
   experiments?: Experiment[];
   closing?: string;
   /** BackWithBrain: the D2C side, the "Both sides" join, then the B2B side. */
@@ -174,10 +185,26 @@ export const book = {
     "I don't wait for a perfect playbook. I explore, understand problems, take ownership, experiment, learn and build.",
 };
 
+/** Printed on the book itself: cover, inside cover, opening page and the metro map. */
+export const bookPrint = {
+  coverKicker: "The Book of",
+  coverTitle: "My Journey",
+  coverLine: "A life built one page at a time",
+  exLibrisLabel: "This book belongs to",
+  exLibris: "Ex Libris",
+  prologueLabel: "Prologue",
+  signature: "— Durgesh",
+  nextStop: "next stop: Kanpur, where it began",
+  pageHeader: "The Book of My Journey",
+  metroTitle: "Aqua Line · my daily commute",
+};
+
 /** Links on the contact section. Empty = button hidden. */
 export const links = {
-  email: "",
-  linkedin: "",
+  email: "durgeshshukla0213@gmail.com",
+  linkedin: "https://www.linkedin.com/in/durgesh-shukla-46b9101b5/",
+  phone: "+91 7022647516",
+  /** The 3-minute video, once recorded. Empty = the button stays hidden. */
   video: "",
 };
 
@@ -205,7 +232,7 @@ export const travels: Travel[] = [
     after: "in-between",
     from: "Greater Noida",
     to: "Bengaluru",
-    mode: "train",
+    mode: "plane",
     caption: "Greater Noida to Bengaluru",
   },
 ];
@@ -465,7 +492,7 @@ export const chapters: Chapter[] = [
       "A new city. A new environment. I reached out to the BackWithBrain founders directly. There was no fixed job description.",
     annotations: [
       { id: "city", label: "Bengaluru", icon: "building" },
-      { id: "bus", label: "Off the bus", icon: "route" },
+      { id: "bus", label: "From the airport", icon: "route" },
       { id: "office", label: "BackWithBrain", icon: "flower" },
     ],
   },
@@ -498,17 +525,26 @@ export const chapters: Chapter[] = [
           "Going into small local areas to find people interested in meditation",
         ],
         note: "Friends and family were not a major channel. Community events and talking to people directly worked best.",
-        placeholder: "Referral growth channel — wording to be confirmed by me",
+        referral:
+          "Referral growth channel — Participants invite a friend to join the next programme. The accountability partner mechanic makes this natural: you need a partner, so you invite someone.",
       },
       b2b: {
         title: "How do I figure out B2B growth?",
         questions: [
-          "Who buys?",
-          "Who is the user?",
-          "How do we reach them?",
-          "How do we test it cheaply?",
+          { q: "Who buys?", a: "HR leaders and wellness heads at mid-size tech companies." },
+          {
+            q: "Who is the user?",
+            a: "The employee who meditates. Adoption depends on them, not on the buyer.",
+          },
+          {
+            q: "How do we reach them?",
+            a: "Direct outreach to HR, plus word of mouth from employees who tried the B2C product.",
+          },
+          {
+            q: "How do we test it cheaply?",
+            a: "Offer a free 7-day programme to one company. Measure how many employees complete it.",
+          },
         ],
-        placeholder: "To be filled by me",
       },
     },
     lesson:
@@ -790,31 +826,19 @@ export const chapters: Chapter[] = [
   {
     id: "next",
     number: "17",
-    title: "What I Would Build Next",
-    short: "What's next",
+    /** Left page title and (no separate heading) the left panel title. */
+    title: "Written with Wispr Flow",
+    short: "Wispr Flow",
     place: "Wispr Flow · India",
     part: "The Next Chapter",
     pageLabel: "CHAPTER 17 · THE NEXT CHAPTER",
-    quote: "I do not have every answer. I do know how to start, measure and learn.",
-    heading: "Wispr Flow, in India",
-    category: "Growth thinking",
-    about:
-      "Wispr Flow grows when someone tries voice for one real workflow and discovers it is faster than typing.",
-    loop: { NOTICED: "on", INVESTIGATED: "on", DECIDED: "on" },
-    work: {
-      title: "What I would build next",
-      subtitle: "If I join Wispr Flow, this is how I would start.",
-      items: [
-        { title: "[First thing I would build]", text: "To be filled by me" },
-        { title: "[Second thing I would build]", text: "To be filled by me" },
-        { title: "[Third thing I would build]", text: "To be filled by me" },
-      ],
-    },
-    annotations: [
-      { id: "office", label: "An office that speaks", icon: "building" },
-      { id: "desk", label: "Speaking, not typing", icon: "mic" },
-      { id: "screen", label: "Voice becomes text", icon: "pen" },
-    ],
+    quote: "The next chapter, I want to write with Wispr.",
+    category: "Growth intern",
+    about: "The next chapter of this book will be written at Wispr Flow — as a growth intern.",
+    scrollPrompt: "Scroll down to see what I would bring",
+    nextLabel: "Close the book",
+    // No key lesson, no ownership loop and no right panel: the scene speaks for itself.
+    annotations: [{ id: "office", label: "An office that speaks", icon: "building" }],
   },
 ];
 
@@ -837,65 +861,110 @@ export function wordCount(text: string) {
 
 /* ------------------------------------------------------- after the book */
 
-export interface Hackathon {
-  place: "1st" | "2nd" | "3rd" | "4th";
-  tone: "pink" | "yellow" | "purple" | "teal";
-  event: string;
-  date: string;
-  teams: string;
-  project: string;
-  text: string;
-  tags?: string[];
-  /** Up to three photos from the event. Empty strings show an upload slot. */
-  photos: [string, string, string];
+/**
+ * Everything after the book closes, in the Wispr-style cream / deep-green
+ * editorial look. Image fields left as "" show a labelled upload slot until
+ * Durgesh sends the real photo. No quotes or numbers are invented here.
+ */
+
+/** A section title like "Good questions.": `em` is the part set in italic. */
+export interface Headline {
+  eyebrow: string;
+  title: string;
+  em: string;
 }
 
-/** Oldest to newest, left to right — the timeline under the cards uses the same order. */
-export const hackathons: Hackathon[] = [
-  {
-    place: "4th",
-    tone: "teal",
-    event: "AI Agents Hackathon",
-    date: "6 Sep 2026",
-    teams: "30 teams",
-    project: "Mind Games",
-    text: "Built independently using Kimchi.dev.",
-    tags: ["Solo build"],
-    photos: ["", "", ""],
-  },
-  {
-    place: "3rd",
-    tone: "purple",
-    event: "ElevenCreative Session, Bengaluru",
-    date: "18 Sep 2026",
-    teams: "8 teams",
-    project: "AI Music Experiment",
-    text: "AI-powered music blending Western and Indian classical influences using ElevenLabs.",
-    photos: ["", "", ""],
-  },
-  {
-    place: "2nd",
-    tone: "yellow",
-    event: "Razorpay × Replit Sprint Saturday",
-    date: "19 Sep 2026",
-    teams: "90+ teams",
-    project: "Smaran",
-    text: "Solo build. Hindi, Hinglish, English medication reminder. Replit · Claude · ElevenLabs.",
-    tags: ["★ Featured achievement", "Solo build"],
-    photos: ["", "", ""],
-  },
-  {
-    place: "1st",
-    tone: "pink",
-    event: "EmberGround AI Hackathon",
-    date: "27 Sep 2026",
-    teams: "26 teams",
-    project: "Smaran",
-    text: "Voice-based medication reminder. Built with team collaboration using ElevenLabs.",
-    tags: ["Team build", "Voice AI"],
-    photos: ["", "", ""],
-  },
-];
+export const whoIAm = {
+  headline: { eyebrow: "Who I am · Growth intern", title: "Who I am.", em: "Who I am." } satisfies Headline,
+  image: portrait.url,
+  imageAlt:
+    "Durgesh Shukla smiling in a cap and glasses, surrounded by drawings of a robot, a light bulb, a trophy, a coffee mug and a laptop",
+  name: "Durgesh Shukla",
+  tagline: "Growth operator. Not just a thinker.",
+  pills: ["Customer research", "Growth experiments", "Retention", "Ground-level execution"],
+};
+
+/** The small extra under each open principle. */
+export type OperateExtra =
+  | { kind: "compare"; before: string; after: string }
+  | { kind: "steps"; steps: string[] }
+  | { kind: "lessons"; lessons: string[] }
+  | { kind: "places"; places: string[] };
+
+export interface OperatePrinciple {
+  number: string;
+  /** Colour of the number circle and the open card's left edge. */
+  accent: "forest" | "gold" | "terracotta" | "olive";
+  title: string;
+  text: string;
+  extra: OperateExtra;
+  /** Link text, e.g. "See Chapter 11". */
+  evidence: string;
+  /** Chapter id the link scrolls the book to. */
+  link: string;
+}
+
+export const operate = {
+  headline: { eyebrow: "Principles", title: "How I Operate", em: "How I Operate" } satisfies Headline,
+  principles: [
+    {
+      number: "01",
+      accent: "forest",
+      title: "I own the problem, not just the task",
+      text: "Programme completion was dropping — 29% by day 7. Nobody assigned me to fix it. I identified the problem, designed a retention experiment using accountability partners, and tracked the result. Completion rose to 50%+.",
+      extra: { kind: "compare", before: "Before: 29%", after: "After: 50%+" },
+      evidence: "See Chapter 11",
+      link: "accountability",
+    },
+    {
+      number: "02",
+      accent: "gold",
+      title: "I earn the role by doing the work first",
+      text: "At GoCattles, I didn't start with a marketing title. I started by moving inventory — selling directly to shopkeepers, door to door. That proved I could execute. It earned me the digital marketing role, then operations, then managing a team of two.",
+      extra: { kind: "steps", steps: ["Offline sales", "Digital growth", "Operations", "Team lead"] },
+      evidence: "See Chapter 05",
+      link: "gocattles",
+    },
+    {
+      number: "03",
+      accent: "terracotta",
+      title: "When a campaign fails, I talk to customers",
+      text: "Prime Day campaign got attention but no conversions. I didn't blame the channel — I studied why attention didn't become demand. Daily Detox engagement dropped — I called customers directly, learned the content was repetitive, and recommended stopping the experiment.",
+      extra: { kind: "lessons", lessons: ["Attention ≠ Conversions", "User feedback > assumptions"] },
+      evidence: "See Chapter 06 + 12",
+      link: "prime-day",
+    },
+    {
+      number: "04",
+      accent: "olive",
+      title: "I grow things from the ground, not from slides",
+      text: "I acquire users face to face. Shopkeepers in Noida for a dog food brand. Community parks in Bengaluru for a meditation startup. Wellness events to find people interested in mindfulness. I test growth channels by showing up, not by making decks.",
+      extra: { kind: "places", places: ["Offline sales — Noida", "Community parks — Bengaluru", "Wellness events — Bengaluru"] },
+      evidence: "See Chapters 05, 09, 12",
+      link: "gocattles",
+    },
+  ] satisfies OperatePrinciple[],
+};
+
+/** Quiet closing line under the How I Operate principles. */
+export const statement = "I don't wait for a perfect playbook. I explore, take ownership and build.";
+
+/** One featured hackathon. Empty photo strings show an upload slot. */
+export const hackathon = {
+  headline: {
+    eyebrow: "Hackathon",
+    title: "Building Under Pressure",
+    em: "Under Pressure",
+  } satisfies Headline,
+  subtitle: "Razorpay × Replit Sprint Saturday · 19 Sep 2026 · 90+ teams",
+  place: "2ND",
+  placeLabel: "🥈 2nd place",
+  event: "Razorpay × Replit Sprint Saturday",
+  details: "19 Sep 2026 · 90+ teams · Project: Smaran",
+  text: "Solo build. Hindi, Hinglish, English medication reminder. Built with Replit, Claude and ElevenLabs.",
+  tags: ["★ Featured achievement", "Solo build"],
+  photos: [winnersPhoto.url, demoPhoto.url],
+};
 
 /**
  * "What people say": screenshots of LinkedIn recommendations, uploaded by
@@ -908,140 +977,200 @@ export interface TestimonialShot {
   alt: string;
 }
 
+export const testimonialsIntro = {
+  headline: { eyebrow: "LinkedIn recommendations", title: "What people say", em: "say" } satisfies Headline,
+};
+
 export const testimonials: TestimonialShot[] = [
-  { name: "", role: "", image: "", alt: "LinkedIn recommendation screenshot" },
-  { name: "", role: "", image: "", alt: "LinkedIn recommendation screenshot" },
-  { name: "", role: "", image: "", alt: "LinkedIn recommendation screenshot" },
-  { name: "", role: "", image: "", alt: "LinkedIn recommendation screenshot" },
+  { name: "", role: "", image: syedShot.url, alt: "LinkedIn comment from Syed Adil, India Growth at Replit" },
+  { name: "", role: "", image: maneckShot.url, alt: "LinkedIn comment from Maneck Debara, Building Razorpay Rize" },
 ];
 
-export interface OperateCard {
+export interface GrowthOpportunity {
   number: string;
-  tone: "forest" | "gold" | "terracotta" | "blue" | "olive";
-  icon: string;
-  title: string;
-  text: string;
-  evidence: string;
-  /** Chapter id the evidence links to ("hackathons" scrolls to that section). */
-  link: string;
+  /** Short channel label, e.g. "Quick commerce". */
+  channel: string;
+  category: string;
+  headline: string;
+  image: string;
+  imageAlt: string;
+  description: string;
+  objective: string;
+  /** Shown when "Explore the idea" is opened. */
+  details: {
+    opportunity: string;
+    execute: string;
+    audience: string;
+    hypothesis: string;
+    measure: string;
+  };
+  /** Outdoor creative lines, shown in the open panel (billboard card only). */
+  creative?: string[];
 }
 
-export const operate = {
-  title: "How I Operate",
-  subtitle: "The pattern behind every chapter you just read.",
-  cards: [
+/**
+ * "My Growth Playbook": four proposed growth experiments Durgesh wants to run as a
+ * Growth Intern. None of them has launched, and no partner has agreed to anything —
+ * the copy must always say so.
+ */
+export const growth = {
+  eyebrow: "My Growth Playbook",
+  title: "Unlocking New Growth Channels for Wispr Flow.",
+  em: "Wispr Flow.",
+  subtitle:
+    "Four opportunities I want to explore, test and turn into repeatable growth across India.",
+  note: "These are proposed experiments I would run as a Growth Intern. None of them has launched, and no partner has agreed to them. The images are concept visuals.",
+  opportunities: [
     {
       number: "01",
-      tone: "forest",
-      icon: "🎯",
-      title: "I own the problem, not just the task",
-      text: "At BackWithBrain, nobody asked me to fix the drop-off. I noticed it, investigated it, introduced accountability partners and tracked the result. Day-7 completion went from 29% to 50%+.",
-      evidence: "See Chapter 11 — Accountability Partners",
-      link: "accountability",
+      channel: "Quick commerce",
+      category: "Partnership-led distribution",
+      headline: "Your next order could unlock your next keyboard.",
+      image: quickCommerceImg,
+      imageAlt:
+        "Concept visual: a purple delivery bag of groceries, a phone at checkout and a green function-key keychain",
+      description:
+        "Explore a Zepto partnership that introduces Wispr Flow at checkout. Test a one-month Wispr Flow Pro offer on qualifying orders at experimental basket thresholds of ₹299 and ₹399, supported by a limited-edition keyboard-inspired keychain.",
+      objective:
+        "Use an everyday purchase channel to introduce Wispr Flow to new consumers and test whether incentives generate retained users.",
+      details: {
+        opportunity:
+          "Quick-commerce checkout reaches people in the middle of a habit they already have, many times a month.",
+        execute:
+          "Pitch a small pilot to Zepto: a one-month Wispr Flow Pro offer on qualifying orders, two basket thresholds (₹299 and ₹399) tested against each other, and a limited-edition function-key keychain as the physical reminder.",
+        audience:
+          "Students and working professionals in Indian cities who already order on quick-commerce apps.",
+        hypothesis:
+          "An offer attached to a purchase people already make brings in new users more cheaply than paid ads — and some of them keep using Wispr Flow after the free month.",
+        measure:
+          "Offers redeemed, first successful dictation, users still active after the free month, and which basket threshold converts better.",
+      },
     },
     {
       number: "02",
-      tone: "gold",
-      icon: "⚡",
-      title: "I start before anyone asks me to",
-      text: "At GoCattles, I started by selling remaining inventory directly to shopkeepers — on the ground, door to door. That earned me the digital marketing role. From there I expanded into operations, Amazon Seller Central, content, and eventually managed two interns. Nobody gave me that path. I built it one step at a time.",
-      evidence: "See Chapter 05 — GoCattles",
-      link: "gocattles",
+      channel: "Campus ambassadors",
+      category: "Community-led distribution",
+      headline: "Make every campus a voice-first campus.",
+      image: campusImg,
+      imageAlt:
+        "Concept visual: students gathered around laptops at a green Wispr Flow demo booth on an Indian campus",
+      description:
+        "Build a campus ambassador programme across India. Visit selected colleges, organise live product demonstrations, recruit student ambassadors, and encourage students to use Wispr Flow for assignments, research, project documentation and applications.",
+      objective: "Create a repeatable peer-to-peer acquisition and referral channel.",
+      details: {
+        opportunity:
+          "Students write all day — assignments, research notes, project reports, applications — and they pick up tools from each other.",
+        execute:
+          "Start with a few colleges. Run live demos on campus, recruit student ambassadors, and give each one a simple way to bring classmates in and see who joined.",
+        audience: "College students across India, and the ambassadors who already influence them.",
+        hypothesis:
+          "A student who sees a friend dictate an assignment is more likely to try Wispr Flow than one who sees an ad.",
+        measure:
+          "Sign-ups per campus and per ambassador, first successful dictation, referrals per active student, and weekly use through the semester.",
+      },
     },
     {
       number: "03",
-      tone: "terracotta",
-      icon: "🔄",
-      title: "When something breaks, I investigate before I react",
-      text: "Prime Day campaign didn't convert. I didn't blame the channel — I examined the gap between attention and demand. Daily Detox engagement dropped. I didn't defend the idea — I called customers and recommended stopping the experiment.",
-      evidence: "See Chapter 06 — Prime Day + Chapter 12 — Daily Detox",
-      link: "prime-day",
+      channel: "Metro branding",
+      category: "Out-of-home brand awareness",
+      headline: "Take Wispr Flow into the daily commute.",
+      image: metroImg,
+      imageAlt:
+        "Concept visual: a metro train in a green Wispr Flow wrap pulling into a station, with a QR panel on the platform",
+      description:
+        "Explore Delhi Metro as a high-frequency brand visibility channel. Test train branding, station advertising and QR-led landing pages to introduce voice typing to students and working professionals.",
+      objective:
+        "Build awareness and measure whether repeated exposure translates into product trials.",
+      details: {
+        opportunity:
+          "The same commuters pass the same trains and stations every day — repeated exposure is built in.",
+        execute:
+          "Test one line or a few stations first: a train wrap, station panels and a QR code that opens a landing page made for commuters.",
+        audience: "Students and working professionals on their daily metro commute.",
+        hypothesis:
+          "Seeing the message every day, with an easy QR code to scan, turns awareness into trials.",
+        measure:
+          "QR scans and landing-page visits per station, downloads from those visits, first successful dictation, and how these change over the weeks of the campaign.",
+      },
     },
     {
       number: "04",
-      tone: "blue",
-      icon: "🚀",
-      title: "I learn by doing, not by taking a course first",
-      text: "Figma, Replit, Claude, ElevenLabs, Amazon Seller Central — I did not study any of these before using them. I had a problem, picked the tool, and shipped something with it the same week. Four hackathons in four weeks, each with a different tool and a working prototype.",
-      evidence: "See Hackathon wins + Chapter 16 — Smaran",
-      link: "hackathons",
+      channel: "Bengaluru ORR billboard",
+      category: "Contextual outdoor advertising",
+      headline: "Turn Bengaluru traffic into a growth opportunity.",
+      image: billboardImg,
+      imageAlt:
+        "Concept visual: a green Wispr Flow billboard above evening traffic on Bengaluru's Outer Ring Road",
+      description:
+        "Explore high-traffic advertising locations along Bengaluru's Outer Ring Road and create locally relevant Hindi-English outdoor campaigns for working professionals.",
+      objective:
+        "Turn contextual brand awareness into trackable product discovery, trials and activations.",
+      details: {
+        opportunity:
+          "The Outer Ring Road is lined with tech offices, and the people stuck in its traffic spend their working day typing.",
+        execute:
+          "Pick a few high-traffic spots near office clusters and run a Hindi-English billboard with a short, memorable link or code, so every visit can be traced back to the board.",
+        audience: "Working professionals commuting to Bengaluru's tech offices.",
+        hypothesis:
+          "A message that names a frustration people feel at that exact moment is remembered — and tried once they reach their desk.",
+        measure:
+          "Visits through the campaign link or code, downloads, first successful dictation, and activation by area.",
+      },
+      creative: [
+        "STUCK IN TRAFFIC?",
+        "Steering pakad-pakad ke haath thak gaye honge?",
+        "Office jaakar phir ghanton typing?",
+        "SWITCH TO WISPR FLOW.",
+        "Get your work done by voice. Give your fingers a break.",
+        "Once you're parked or back at your desk — never while driving or riding.",
+      ],
     },
-    {
-      number: "05",
-      tone: "olive",
-      icon: "🤝",
-      title: "I start on the ground, not on a slide deck",
-      text: "I sold dog food to shopkeepers in Noida. I went to community parks and wellness events across Bengaluru to introduce people to meditation. I called customers when an experiment failed. Growth strategies that only exist in presentations do not interest me.",
-      evidence: "See Chapters 05, 09, 12",
-      link: "community",
-    },
-  ] satisfies OperateCard[],
+  ] as GrowthOpportunity[],
+  execution: {
+    title: "From opportunity to measurable growth.",
+    em: "measurable growth.",
+    steps: [
+      { name: "Discover", text: "Find the channel and the audience" },
+      { name: "Pilot", text: "Run a small, cheap test" },
+      { name: "Activate", text: "Get to a first successful dictation" },
+      { name: "Retain", text: "See who comes back" },
+      { name: "Scale", text: "Grow what works" },
+    ],
+    line: "I don't want to measure success by impressions alone. I want to understand how many people try Wispr Flow, complete their first successful dictation and return to use it again.",
+  },
+  /** The black-and-white transcription strip at the bottom of the section. */
+  transcript: [
+    "I noticed an opportunity...",
+    "What if we tried a different channel?",
+    "Let's take Wispr Flow to new audiences.",
+    "Test it. Measure it. Make it grow.",
+  ],
+  personalUse: {
+    label: "Personal use",
+    title: "How I use Wispr Flow personally",
+    text: "I use Wispr Flow to practise my spoken English. I speak continuously, then check where my words land — whether my sentences are clear, whether my thoughts flow naturally, whether the meaning comes through accurately. It is not just a productivity tool for me. It is how I improve how I communicate every day.",
+  },
 };
 
-export const growth = {
-  title: "Why Wispr Flow, and what I will bring",
-  doTitle: "What I do",
-  doPoints: [
-    {
-      text: "I own a problem end to end, from noticing it to tracking what changed.",
-      link: "accountability",
-    },
-    {
-      text: "I run community-style growth tests on the ground: parks, events, direct conversations.",
-      link: "community",
-    },
-    {
-      text: "I build small products fast when I see a real need, like Smaran for my mother.",
-      link: "smaran",
-    },
-    {
-      text: "I talk to customers and stop an experiment when it is not working.",
-      link: "daily-detox",
-    },
-  ],
-  whyTitle: "Why Wispr Flow",
-  whyPoints: [
-    "[Reason 1 — to be filled by me]",
-    "[Reason 2 — to be filled by me]",
-    "[Reason 3 — to be filled by me]",
-  ],
-};
-
-/** Shown right after the book closes. Section names are placeholders to confirm. */
-export const internalBook = {
-  title: "What I would write in the Wispr Flow Growth Internal Book",
-  sections: [
-    {
-      name: "Watch",
-      text: "Where people already talk instead of type, and where typing slows them down.",
-    },
-    {
-      name: "Try",
-      text: "Small first-dictation tests with real people, one real message at a time.",
-    },
-    { name: "Learn", text: "What made someone come back to voice the next day, and what did not." },
-  ],
-  note: "Section names to be confirmed.",
-};
-
+/** The last section: one deep-green block with "About me" and "Built with Wispr Flow". */
 export const contact = {
-  title: "Durgesh Shukla",
+  title: "Let's Build Together",
+  em: "Together",
+  line: "The next chapter is not written yet. I would like to write it at Wispr Flow.",
+  name: "Durgesh Shukla",
   subtitle: "Product · Growth · Building",
   quote:
     "I am not someone who has everything figured out. I am someone who is willing to figure things out, take ownership and make things happen.",
+  builtTitle: "Built with Wispr Flow",
+  builtText:
+    "Every chapter, every prompt, every edit instruction for this portfolio was dictated through voice.",
+  builtImage: "",
+  /** YouTube link to the build video. When set, it plays here instead of the image slot. */
+  builtVideo: "https://youtu.be/1JDuczI30Hg",
+  builtVideoTitle: "How I built this portfolio with Wispr Flow",
+  builtImageLabel: "Video: building this portfolio with Wispr Flow",
+  builtImageAlt: "A Wispr Flow dictation session used to build this portfolio",
+  builtCaption: "Voice is how I think fastest. This portfolio is the proof.",
   footer: "Built with voice. Built with Wispr Flow. November 2026.",
   colophon: "THE BOOK OF MY JOURNEY — Durgesh Shukla — 2026",
-};
-
-/** Last section of the site. Fill in `line`, `email` and `linkedin` later. */
-export const closing = {
-  title: "My Wispr Flow",
-  line: "[Your closing line goes here]",
-  email: "[your email]",
-  linkedin: "[your LinkedIn link]",
-};
-
-export const hackathonIntro = {
-  title: "Building Under Pressure",
-  subtitle: "Four hackathons. Four weeks. Four different problems.",
 };

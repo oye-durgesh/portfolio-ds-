@@ -22,12 +22,14 @@ Briefs: docs/creative-brief.md (original), docs/creative-brief-v2.md, docs/creat
   - [x] Hackathons oldest → newest, fuse + flame, 3 photo slots per card
   - [x] What People Say: screenshot slots only; Why Wispr Flow two columns
   - [x] Closing "My Wispr Flow" — kept simple, no bell (Durgesh's later message overrides the bell note)
+- [x] Keep the three.js book; add a silent CSS 3D book (page turns, pop-up dioramas, India map, metro) for browsers without WebGL; no error banner or retry button
+- [x] v6 edits (docs/edits-v6-*.md + chat): Ch 09 referral + B2B answers filled; Ch 17 "Written with Wispr Flow" (no right panel, golden office, Durgesh at the door, "Close the book" button); Internal Book removed; Who I Am + How I Operate image slots with compact principle cards; single featured hackathon; Wispr-style cream/green after-book; Why Wispr two columns; contact with real email/phone/LinkedIn; Lovable badge hidden
+- [x] Why Wispr section → "My Growth Playbook": 4 proposed channels (Zepto, campus ambassadors, Delhi Metro, Bengaluru ORR) with concept images and expandable details, Discover→Scale strip, personal-use note, black-and-white transcription strip
 - [ ] Visual-language review by Durgesh — waiting on Durgesh
-- [ ] Real links on the contact section — waiting on email, LinkedIn, video links
-- [ ] Hackathon photos (3 slots per event) and LinkedIn recommendation screenshots — waiting on Durgesh
-- [ ] Placeholder text to fill: referral card, B2B answers, "What I would build next", Why Wispr Flow reasons, Watch/Try/Learn names, closing line, email, LinkedIn — waiting on Durgesh
+- [ ] 3-minute video link — waiting on Durgesh (button hidden until then)
+- [ ] Images to upload: Who I Am collage, How I Operate collage, 3 hackathon photos, Wispr Flow screenshot, LinkedIn recommendation screenshots — waiting on Durgesh
 - [ ] Voice chapter evidence — waiting on real Wispr Flow screenshots/recordings
 - [ ] Mind Games / personal photos / college projects — waiting on Durgesh
 - [ ] Personal memories for Kanpur / school years — waiting on Durgesh
-- [ ] Confirm travel mode to Bengaluru (now a train, per the in-between note) — waiting on Durgesh
+- [x] Greater Noida → Bengaluru is a flight (confirmed by Durgesh)
 - [ ] Performance check on real devices, then publish

@@ -157,6 +157,16 @@ function ContextBody({ chapter, compact = false }: { chapter: Chapter; compact?:
           <p className="text-xs italic leading-relaxed text-foreground/40">{chapter.note}</p>
         </Rise>
       )}
+      {chapter.scrollPrompt && (
+        <Rise i={i++}>
+          <p className="flex items-center gap-1.5 pt-3 text-sm italic text-foreground/40">
+            <span className="animate-nudge-down inline-block not-italic" aria-hidden>
+              ↓
+            </span>
+            {chapter.scrollPrompt}
+          </p>
+        </Rise>
+      )}
     </div>
   );
 }
@@ -262,9 +272,6 @@ function WorkBody({
   );
 }
 
-const PLACEHOLDER =
-  "rounded-lg border border-dashed border-primary/40 px-3 py-2 text-xs italic text-foreground/55";
-
 /** D2C, then the two sides sliding together ("Both sides"), then B2B. */
 function GrowthSidesBody({ g }: { g: NonNullable<Chapter["growthSides"]> }) {
   return (
@@ -289,7 +296,9 @@ function GrowthSidesBody({ g }: { g: NonNullable<Chapter["growthSides"]> }) {
           ))}
         </ul>
         <p className="mt-2 text-xs leading-relaxed text-foreground/70">{g.d2c.note}</p>
-        <p className={`mt-2 ${PLACEHOLDER}`}>{g.d2c.placeholder}</p>
+        <p className="mt-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-xs leading-relaxed text-foreground/80">
+          {g.d2c.referral}
+        </p>
       </section>
 
       {/* The two sides slide toward each other and join in the middle. */}
@@ -314,9 +323,9 @@ function GrowthSidesBody({ g }: { g: NonNullable<Chapter["growthSides"]> }) {
         </h4>
         <ul className="mt-2 grid grid-cols-2 gap-2">
           {g.b2b.questions.map((q) => (
-            <li key={q} className="rounded-lg border border-primary/25 bg-foreground/[0.04] p-2.5">
-              <p className="text-xs font-semibold text-foreground">{q}</p>
-              <p className="mt-1 text-[0.625rem] italic text-foreground/45">{g.b2b.placeholder}</p>
+            <li key={q.q} className="rounded-lg border border-primary/25 bg-foreground/[0.04] p-2.5">
+              <p className="text-xs font-semibold text-foreground">{q.q}</p>
+              <p className="mt-1 text-[0.6875rem] leading-snug text-foreground/70">{q.a}</p>
             </li>
           ))}
         </ul>

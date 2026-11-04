@@ -95,16 +95,13 @@ export function StoryText({ visible }: { visible: boolean }) {
                     ))}
                   </ul>
                   <p className="mt-1">{c.growthSides.d2c.note}</p>
-                  <p className="mt-1 italic text-ink/60">{c.growthSides.d2c.placeholder}</p>
+                  <p className="mt-1">{c.growthSides.d2c.referral}</p>
                   <p className="mt-3 font-semibold">D2C + B2B: both sides</p>
                   <h3 className="mt-3 font-semibold">{c.growthSides.b2b.title}</h3>
                   <ul className="list-disc pl-5">
                     {c.growthSides.b2b.questions.map((q) => (
-                      <li key={q}>
-                        {q}{" "}
-                        <span className="italic text-ink/60">
-                          ({c.growthSides!.b2b.placeholder})
-                        </span>
+                      <li key={q.q}>
+                        <span className="font-semibold">{q.q}</span> {q.a}
                       </li>
                     ))}
                   </ul>

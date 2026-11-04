@@ -16,15 +16,24 @@ import {
   WORLD_COUNT,
   worldBeats,
 } from "@/book/timeline";
+import { BookStage } from "@/book/css/BookStage";
 import { loadBookScene } from "@/book/loadBookScene";
 import { SceneBoundary } from "@/components/journey/SceneBoundary";
 
 const BookScene = lazy(loadBookScene);
 
-/** Rendered by the boundary when the 3D book can't load: switch to the 2D story. */
-function SceneFailed({ onFail }: { onFail: () => void }) {
-  useEffect(onFail, [onFail]);
-  return null;
+/** Silent check: true when the browser can draw WebGL. */
+function hasWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = (canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl")) as WebGLRenderingContext | null;
+    // Free the probe context; browsers cap how many can be open.
+    gl?.getExtension("WEBGL_lose_context")?.loseContext();
+    return !!gl;
+  } catch {
+    return false;
+  }
 }
 
 export const Route = createFileRoute("/")({
@@ -40,7 +49,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Open the book: 16 chapters of Durgesh Shukla's journey, the work behind them, and what he'd build next.",
+          "Open the book: 17 chapters of Durgesh Shukla's journey, the work behind them, and the next chapter he wants to write at Wispr Flow.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -49,19 +58,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function hasWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
-
 const MOTION_KEY = "book-reduced-motion";
 
 function Index() {
-  const [webgl, setWebgl] = useState<boolean | null>(null);
+  /** null until checked on the client; then the WebGL book or the CSS book. */
+  const [mode, setMode] = useState<"webgl" | "css" | null>(null);
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [afterBook, setAfterBook] = useState(false);
@@ -75,7 +76,7 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    setWebgl(hasWebGL());
+    setMode(hasWebGL() ? "webgl" : "css");
     const saved = window.localStorage.getItem(MOTION_KEY);
     const initial =
       saved !== null
@@ -123,6 +124,14 @@ function Index() {
     [bookMax],
   );
 
+  /** Scroll past the last chapter: the book closes, then the after-book sections begin. */
+  const finishBook = useCallback(() => {
+    const to = bookMax() + window.innerHeight * 0.6;
+    window.scrollTo({ top: to, behavior: scrollState.reducedMotion ? "auto" : "smooth" });
+  }, [bookMax]);
+
+
+
   const chapter = chapterIndexAt(progress);
 
   // Left / right arrow keys move between chapters.
@@ -151,7 +160,11 @@ function Index() {
   );
 
   const onReady = useCallback(() => setReady(true), []);
-  const onSceneFailed = useCallback(() => setWebgl(false), []);
+  // If the WebGL book fails to load or loses the graphics card, quietly show the CSS book.
+  const switchToCssBook = useCallback(() => {
+    setReady(false);
+    setMode("css");
+  }, []);
 
   const pos = storyAt(progress);
   const isFinal = pos.world === WORLD_COUNT - 1;
@@ -166,47 +179,46 @@ function Index() {
 
   return (
     <main data-scene-ready={ready ? "true" : undefined} className="relative">
-      {webgl !== false && (
-        <>
-          <div className="fixed inset-0">
-            <ClientOnly fallback={null}>
-              {webgl && (
-                <SceneBoundary fallback={<SceneFailed onFail={onSceneFailed} />}>
-                  <Suspense fallback={null}>
-                    <BookScene onReady={onReady} />
-                  </Suspense>
-                </SceneBoundary>
-              )}
-            </ClientOnly>
-          </div>
-          <div className="pointer-events-none fixed inset-0 bg-vignette" />
+      <div className="fixed inset-0">
+        <ClientOnly fallback={<div className="bk-stage bg-walnut" />}>
+          {mode === "webgl" && (
+            <SceneBoundary onError={switchToCssBook}>
+              <Suspense fallback={null}>
+                <BookScene onReady={onReady} onLost={switchToCssBook} />
+              </Suspense>
+            </SceneBoundary>
+          )}
+          {mode === "css" && <BookStage onReady={onReady} />}
+        </ClientOnly>
+      </div>
+      <div className="pointer-events-none fixed inset-0 bg-vignette" />
 
-          <div
-            className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-background transition-opacity duration-700"
-            style={{ opacity: ready ? 0 : 1 }}
-            aria-hidden={ready}
-          >
-            <p className="font-serif text-3xl">Binding the pages…</p>
-            <div className="h-px w-40 overflow-hidden bg-border">
-              <div className="h-full w-1/3 animate-pulse bg-primary" />
-            </div>
-          </div>
+      <div
+        className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-background transition-opacity duration-700"
+        style={{ opacity: ready ? 0 : 1 }}
+        aria-hidden={ready}
+      >
+        <p className="font-serif text-3xl">Binding the pages…</p>
+        <div className="h-px w-40 overflow-hidden bg-border">
+          <div className="h-full w-1/3 animate-pulse bg-primary" />
+        </div>
+      </div>
 
-          <JourneyHUD
-            progress={progress}
-            chapter={chapter}
-            reducedMotion={reduced}
-            onToggleMotion={toggleMotion}
-            onJumpChapter={jumpChapter}
-            afterBook={afterBook}
-          />
-          {panelChapter && <ChapterPanels chapter={panelChapter} visible={panelVisible} />}
-          <TravelCaption position={pos} />
-          {/* Scroll runway that drives the book */}
-          <div ref={runway} aria-hidden style={{ height: `${TOTAL * 100}vh` }} />
-        </>
-      )}
-      <StoryText visible={webgl === false} />
+      <JourneyHUD
+        progress={progress}
+        chapter={chapter}
+        reducedMotion={reduced}
+        onToggleMotion={toggleMotion}
+        onJumpChapter={jumpChapter}
+        afterBook={afterBook}
+        onFinish={finishBook}
+      />
+      {panelChapter && <ChapterPanels chapter={panelChapter} visible={panelVisible} />}
+      <TravelCaption position={pos} />
+      {/* Scroll runway that drives the book */}
+      <div ref={runway} aria-hidden style={{ height: `${TOTAL * 100}vh` }} />
+      {/* The whole story as text, for screen readers */}
+      <StoryText visible={false} />
       <AfterBook onChapter={jumpToId} onRestart={() => jumpChapter(0)} />
     </main>
   );

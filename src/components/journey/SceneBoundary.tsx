@@ -2,7 +2,8 @@ import { Component, type ReactNode } from "react";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 
 interface Props {
-  fallback: ReactNode;
+  /** Called once when the 3D book fails to load or render. */
+  onError: (error: unknown) => void;
   children: ReactNode;
 }
 
@@ -15,10 +16,12 @@ export class SceneBoundary extends Component<Props, { failed: boolean }> {
   }
 
   override componentDidCatch(error: unknown) {
+    console.error("[book] 3D scene failed:", error);
     reportLovableError(error, { boundary: "book_scene" });
+    this.props.onError(error);
   }
 
   override render() {
-    return this.state.failed ? this.props.fallback : this.props.children;
+    return this.state.failed ? null : this.props.children;
   }
 }

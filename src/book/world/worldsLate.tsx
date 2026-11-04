@@ -970,11 +970,72 @@ function SpeakingDesk({ index }: { index: number }) {
   );
 }
 
+/** Brighter than every other chapter: a warm golden wash that comes up as the world rises. */
+function GoldenGlow() {
+  const room = useRef<THREE.PointLight>(null!);
+  const door = useRef<THREE.PointLight>(null!);
+  useFrame(() => {
+    const k = ramp(0, 0.35, worldState.hold) * worldState.rise;
+    room.current.intensity = 1.2 + 1.6 * k;
+    door.current.intensity = 0.6 + 1.1 * k;
+  });
+  return (
+    <>
+      <pointLight
+        ref={room}
+        position={[0, 1.7, -0.9]}
+        color="#ffd27a"
+        distance={7}
+        decay={1.2}
+        intensity={1.2}
+      />
+      <pointLight
+        ref={door}
+        position={[2.05, 0.9, -0.2]}
+        color="#ffc36b"
+        distance={3.2}
+        decay={1.4}
+        intensity={0.6}
+      />
+    </>
+  );
+}
+
+/** The office doorway on the right; Durgesh stands on the threshold, looking in. */
+function Doorway() {
+  return (
+    <group>
+      <Box size={[0.07, 1, 0.07]} position={[0, 0.5, -0.62]} color={P.woodDark} />
+      <Box size={[0.07, 1, 0.07]} position={[0, 0.5, 0.22]} color={P.woodDark} />
+      <Box size={[0.09, 0.08, 0.92]} position={[0, 1.02, -0.2]} color={P.woodDark} />
+      {/* The door, swung open to the back so Durgesh stays in view. */}
+      <Box size={[0.03, 0.92, 0.4]} position={[0.18, 0.47, -0.8]} rotation={[0, 1.1, 0]} color={P.forest} />
+      {/* A warm pool of light spilling over the threshold. */}
+      <mesh position={[0.05, 0.006, -0.2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.5, 0.82]} />
+        <meshStandardMaterial
+          color="#ffe2a0"
+          emissive="#ffc55a"
+          emissiveIntensity={0.6}
+          transparent
+          opacity={0.75}
+        />
+      </mesh>
+    </group>
+  );
+}
+
 function NextWorld() {
   return (
     <group>
+      <GoldenGlow />
       <Floor />
       <Item at={[0, 0.03, -1.95]} delay={0.02}>
+        {/* A golden halo behind the banner. */}
+        <mesh position={[0, 0.55, -0.02]}>
+          <planeGeometry args={[5.1, 1.15]} />
+          <meshStandardMaterial color="#ffd889" emissive="#ffbf4d" emissiveIntensity={0.55} />
+        </mesh>
         <Box size={[4.9, 0.9, 0.05]} position={[0, 0.45, 0]} color={P.paper} />
         <Label text="JOIN WISPR FLOW" at={[0, 0.7, 0.035]} size={[1.5, 0.22]} />
       </Item>
@@ -983,8 +1044,12 @@ function NextWorld() {
           <SpeakingDesk index={i} />
         </Item>
       ))}
-      <Item at={[2.55, 0.04, -0.2]} delay={0.4}>
-        <Character pose="look" mood="happy" rotationY={-Math.PI / 2 - 0.4} walkIn={0} />
+      <Item at={[2.3, 0.03, 0]} delay={0.3}>
+        <Doorway />
+      </Item>
+      {/* Standing just outside the door, turned toward the speaking office. */}
+      <Item at={[2.48, 0.04, -0.2]} delay={0.4}>
+        <Character pose="look" mood="happy" rotationY={-Math.PI / 2 - 0.25} walkIn={0} />
       </Item>
       <Item at={[-2.5, 0.03, -0.3]}>
         <Plant s={1.6} />
@@ -1082,8 +1147,6 @@ export const LATE_WORLDS: Record<string, WorldDef> = {
     C: NextWorld,
     anchors: {
       office: [0, 0.82, -1.92],
-      desk: [-0.68, 0.62, -0.35],
-      screen: [0.66, 0.5, -0.63],
     },
   },
 };

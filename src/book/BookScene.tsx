@@ -147,7 +147,7 @@ function CameraRig() {
         const m = worldState.map;
         mixShot(p, t, SHOTS.map, m);
         const leg = travels[worldState.travel];
-        // Long legs (the plane, or the train down to Bengaluru) climb higher to show India.
+        // Long legs (any flight, or a long north–south ride) climb higher to show India.
         const long =
           !!leg &&
           (leg.mode === "plane" ||
@@ -240,7 +240,14 @@ function Table({ wood }: { wood: THREE.Texture }) {
   );
 }
 
-export default function BookScene({ onReady }: { onReady: () => void }) {
+export default function BookScene({
+  onReady,
+  onLost,
+}: {
+  onReady: () => void;
+  /** The graphics card dropped the scene and didn't give it back. */
+  onLost?: (err: Error) => void;
+}) {
   const [tex, setTex] = useState<BookTextures | null>(null);
 
   useEffect(() => {
@@ -267,9 +274,19 @@ export default function BookScene({ onReady }: { onReady: () => void }) {
   return (
     <Canvas
       shadows
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       camera={{ fov: 32, near: 0.1, far: 80, position: SHOTS.top.pos }}
-      gl={{ antialias: true }}
+      gl={{ antialias: true, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => {
+        // three.js asks the browser to restore a lost context; if it never comes back, remount.
+        const el = gl.domElement;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        el.addEventListener("webglcontextlost", () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => onLost?.(new Error("The graphics context was lost.")), 3000);
+        });
+        el.addEventListener("webglcontextrestored", () => clearTimeout(timer));
+      }}
       aria-label="A 3D storybook titled The Book of My Journey"
     >
       <color attach="background" args={[ROOM]} />

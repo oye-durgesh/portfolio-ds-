@@ -1,22 +1,19 @@
 /**
- * Loads the 3D scene chunk. After a redeploy an open tab can still ask for
- * the previous chunk name; reload once to pick up the new one, then give up
- * and let the error boundary show the 2D story.
+ * Loads the WebGL scene chunk, retrying a failed fetch a couple of times
+ * (a flaky network, or a tab asking for a chunk from before a redeploy).
+ * If it still fails the caller quietly switches to the CSS book.
  */
-const KEY = "book-scene-reloaded";
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export function loadBookScene() {
-  return import("./BookScene")
-    .then((mod) => {
-      sessionStorage.removeItem(KEY);
-      return mod;
-    })
-    .catch((err: unknown) => {
-      if (!sessionStorage.getItem(KEY)) {
-        sessionStorage.setItem(KEY, "1");
-        window.location.reload();
-        return new Promise<never>(() => {});
-      }
-      throw err;
-    });
+export async function loadBookScene() {
+  let lastError: unknown;
+  for (const delay of [0, 500, 1500]) {
+    if (delay) await wait(delay);
+    try {
+      return await import("./BookScene");
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
 }

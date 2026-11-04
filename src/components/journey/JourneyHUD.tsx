@@ -12,6 +12,8 @@ interface Props {
   onJumpChapter: (index: number) => void;
   /** True once the visitor has scrolled past the closed book. */
   afterBook?: boolean;
+  /** "Next" on the last chapter: close the book and go to the sections after it. */
+  onFinish?: () => void;
 }
 
 const WORK_INDEX = chapters.findIndex((c) => c.id === "gocattles");
@@ -23,6 +25,7 @@ export function JourneyHUD({
   onToggleMotion,
   onJumpChapter,
   afterBook = false,
+  onFinish,
 }: Props) {
   const [navOpen, setNavOpen] = useState(false);
   const current = chapters[chapter] ?? chapters[0]!;
@@ -188,14 +191,14 @@ export function JourneyHUD({
             </button>
           )}
           <button
-            onClick={() => next && onJumpChapter(chapter + 1)}
-            disabled={!next}
+            onClick={() => (next ? onJumpChapter(chapter + 1) : onFinish?.())}
+            disabled={!next && !onFinish}
             className="flex min-h-12 max-w-[45vw] items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-right text-sm backdrop-blur hover:bg-secondary disabled:opacity-0"
-            aria-label={next ? `Next: ${next.title}` : "Next chapter"}
+            aria-label={next ? `Next: ${next.title}` : (current.nextLabel ?? "Close the book")}
           >
             <span className="truncate">
               <span className="hidden sm:inline">
-                {next ? (current.nextLabel ?? next.short) : ""}
+                {next ? (current.nextLabel ?? next.short) : (current.nextLabel ?? "Close the book")}
               </span>
               <span className="sm:hidden">Next</span>
             </span>
